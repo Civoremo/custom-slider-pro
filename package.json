@@ -1,0 +1,67 @@
+{
+	"name": "custom-slider-pro",
+	"version": "0.0.1",
+	"description": "A customizable slider component for SvelteKit with multiple shapes and styles",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"prepublishOnly": "npm run package"
+	},
+	"peerDependencies": {
+		"svelte": "^4.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/package": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"svelte": "^4.2.19",
+		"svelte-check": "^3.4.3",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^5.0.0",
+		"vitest": "^2.1.5",
+		"@testing-library/svelte": "^4.0.3"
+	},
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"slider",
+		"range",
+		"input",
+		"component",
+		"customizable",
+		"typescript"
+	],
+	"author": "Civoremon",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/civoremon/custom-slider-pro"
+	},
+	"bugs": {
+		"url": "https://github.com/civoremon/custom-slider-pro/issues"
+	},
+	"homepage": "https://github.com/civoremon/custom-slider-pro#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts"
+}

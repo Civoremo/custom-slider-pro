@@ -1,0 +1,31 @@
+# Development files
+.svelte-kit/
+node_modules/
+src/
+tests/
+.env
+.env.*
+!.env.example
+
+# Config files
+.prettierrc
+.prettierignore
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+svelte.config.js
+
+# Git files
+.git/
+.gitignore
+
+# Build artifacts
+coverage/
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# Only include dist folder
+!dist/
