@@ -24,7 +24,7 @@
 		"prepublishOnly": "npm run package"
 	},
 	"peerDependencies": {
-		"svelte": "^5.1.16"
+		"svelte": "^4.2.7"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
