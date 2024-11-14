@@ -1,4 +1,4 @@
-import CustomSliderProComponent from './CustomSliderPro.svelte';
+import CustomSliderPro from './CustomSliderPro.svelte';
 import type { SvelteComponent } from 'svelte';
 import type {
 	CustomSliderProps,
@@ -8,8 +8,10 @@ import type {
 	defaultProps
 } from './types';
 
+export { CustomSliderPro };
+
 // Export the component
-export { CustomSliderProComponent as CustomSliderPro };
+// export { CustomSliderProComponent as CustomSliderPro };
 
 // Export types
 export type { CustomSliderProps, SliderShape, ShapeStyles, SliderType, defaultProps };
@@ -27,3 +29,5 @@ export type CustomSliderProType = SvelteComponent<
 		default: {};
 	}
 >;
+
+export default CustomSliderPro;

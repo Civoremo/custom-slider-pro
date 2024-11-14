@@ -1,4 +1,7 @@
 <script lang="ts">
+	// import { type SliderShape, type SliderType, type defaultProps } from '$lib';
+	// import CustomSliderPro from '$lib';
+	// In +page.svelte, change:
 	import { CustomSliderPro, type SliderShape, type SliderType, type defaultProps } from '$lib';
 
 	let value: number = 2;

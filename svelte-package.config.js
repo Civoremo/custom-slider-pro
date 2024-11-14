@@ -1,5 +1,4 @@
 /**
- * @format
  * @type {import('@sveltejs/package').Config}
  */
 
