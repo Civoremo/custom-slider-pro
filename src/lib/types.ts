@@ -47,6 +47,8 @@ export interface CustomSliderProps {
 	thumbSize?: number;
 	/** Border width of the thumb in pixels */
 	thumbBorderWidth?: number;
+	/** Custom color for all parts */
+	colors?: ColorScheme;
 }
 
 /** Color configuration for slider variants */

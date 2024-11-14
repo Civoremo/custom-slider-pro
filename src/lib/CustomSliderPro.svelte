@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SliderShape, ShapeStyles } from './types';
 
-	import { defaultColorSchemes, defaultShapeStyles, defaultProps } from './types';
+	import { defaultColorSchemes, defaultShapeStyles, defaultProps, type ColorScheme } from './types';
 
 	// Props with defaults
 	export let value = defaultProps.value;
@@ -14,6 +14,7 @@
 	export let trackHeight = defaultProps.trackHeight;
 	export let thumbSize = defaultProps.thumbSize;
 	export let thumbBorderWidth = defaultProps.thumbBorderWidth;
+	export let colors: ColorScheme | undefined = undefined;
 
 	const colorSchemes = defaultColorSchemes;
 	const getShapeStyles = (shapeType: SliderShape): ShapeStyles => defaultShapeStyles[shapeType];
@@ -22,7 +23,7 @@
 	const markerSize = thumbSize - 4 <= trackHeight ? thumbSize : thumbSize - 4;
 
 	$: shapeStyle = getShapeStyles(shape);
-	$: colors = colorSchemes[type];
+	$: colors = colors || colorSchemes[type];
 	$: totalSteps = Math.ceil((max - min) / step);
 	$: markers = Array.from({ length: totalSteps + 1 }, (_, i) => ({
 		value: min + i * step,

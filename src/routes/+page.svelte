@@ -16,6 +16,16 @@
 		</div>
 
 		<div class="slider-wrapper">
+			<h3 class="slider-title">Custom Colors Circle</h3>
+			<CustomSliderPro bind:value colors={{
+				filled: "#4296e5",
+				track: "#e523eb",
+				thumb: "#ff99ff",
+				border: "#6e5"
+			}}  />
+		</div>
+
+		<div class="slider-wrapper">
 			<h3 class="slider-title">Rounded Square</h3>
 			<CustomSliderPro
 				bind:value
@@ -126,7 +136,7 @@
 	.slider-title {
 		text-align: center;
 		margin-bottom: 1.5rem;
-		font-size: 0.5rem;
+		font-size: 1rem;
 		color: #4b5563;
 		font-weight: 500;
 	}
