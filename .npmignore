@@ -29,3 +29,5 @@ coverage/
 
 # Only include dist folder
 !dist/
+
+.DS_Store

@@ -1,6 +1,6 @@
 {
 	"name": "custom-slider-pro",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "A customizable slider component for SvelteKit with multiple shapes and styles",
 	"type": "module",
 	"exports": {
@@ -56,12 +56,12 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Civoremon/custom-slider-pro"
+		"url": "https://github.com/Civoremo/custom-slider-pro"
 	},
 	"bugs": {
-		"url": "https://github.com/Civoremon/custom-slider-pro/issues"
+		"url": "https://github.com/Civoremo/custom-slider-pro/issues"
 	},
-	"homepage": "https://github.com/Civoremon/custom-slider-pro#readme",
+	"homepage": "https://github.com/Civoremo/custom-slider-pro#readme",
 	"publishConfig": {
 		"access": "public"
 	},
