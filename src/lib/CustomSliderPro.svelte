@@ -1,9 +1,7 @@
 <script lang="ts">
 	import type { SliderShape, ShapeStyles } from './types';
-
 	import { defaultColorSchemes, defaultShapeStyles, defaultProps, type ColorScheme } from './types';
 
-	// Props with defaults
 	export let value = defaultProps.value;
 	export let min = defaultProps.min;
 	export let max = defaultProps.max;
@@ -18,8 +16,6 @@
 
 	const colorSchemes = defaultColorSchemes;
 	const getShapeStyles = (shapeType: SliderShape): ShapeStyles => defaultShapeStyles[shapeType];
-
-	//   const markerSize = trackHeight + (thumbSize - trackHeight) + 2;
 	const markerSize = thumbSize - 4 <= trackHeight ? thumbSize : thumbSize - 4;
 
 	$: shapeStyle = getShapeStyles(shape);
@@ -35,6 +31,10 @@
 		const input = event.target as HTMLInputElement;
 		const newValue = parseFloat(input.value);
 		value = Math.round(newValue * (1 / step)) * step;
+	}
+
+	function handleMarkerClick(markerValue: number): void {
+		value = markerValue;
 	}
 </script>
 
@@ -56,8 +56,9 @@
 					"
 				>
 					{#each markers as marker}
-						<div
+						<button
 							class="marker"
+							on:click={() => handleMarkerClick(marker.value)}
 							style="
 							left: {((marker.value - min) / (max - min)) * 100}%;
 							width: {markerSize}px;
@@ -129,14 +130,15 @@
 
 		<div class="labels-container">
 			{#each markers as marker, index}
-				<div
+				<button
 					class="label"
+					on:click={() => handleMarkerClick(marker.value)}
 					style="
-          left: {((marker.value - min) / (max - min)) * 100}%;
-          font-weight: {value === marker.value ? '600' : '400'};
-          color: {value === marker.value ? '#1f2937' : '#6b7280'};
-          text-align: {index === 0 ? 'left' : index === markers.length - 1 ? 'right' : 'center'};
-          transform: translateX(-50%);"
+					left: {((marker.value - min) / (max - min)) * 100}%;
+					font-weight: {value === marker.value ? '600' : '400'};
+					color: {value === marker.value ? '#1f2937' : '#6b7280'};
+					text-align: {index === 0 ? 'left' : index === markers.length - 1 ? 'right' : 'center'};
+					transform: translateX(-50%);"
 				>
 					<span
 						class="label-text"
@@ -148,7 +150,7 @@
 					>
 						{marker.label}
 					</span>
-				</div>
+				</button>
 			{/each}
 		</div>
 	</div>
@@ -190,6 +192,23 @@
 		top: 50%;
 		transform: translate(-50%, -50%);
 		z-index: 1;
+		width: var(--marker-size, 16px);
+		height: var(--marker-size, 16px);
+		border: none;
+		background-color: inherit;
+		cursor: pointer;
+		border-radius: inherit;
+	}
+
+	.marker::after {
+		content: '';
+		position: absolute;
+		top: -24px; 
+		left: 50%;
+		transform: translateX(-50%);
+		width: 32px;
+		height: 24px;
+		background: transparent;
 	}
 
 	.thumb {
@@ -212,10 +231,10 @@
 
 	.input-wrapper {
 		position: absolute;
-		top: 0;
+		top: -12px;
 		left: calc(var(--thumb-overflow) * -1);
 		right: calc(var(--thumb-overflow) * -1);
-		bottom: 0;
+		bottom: -12px;
 		width: calc(100% + var(--thumb-overflow) * 2);
 	}
 
@@ -224,9 +243,9 @@
 		top: 50%;
 		transform: translateY(-50%);
 		width: 100%;
-		height: 100%;
+		height: calc(var(--thumb-size, 20px) + 24px);
 		opacity: 0;
-		cursor: pointer;
+		cursor: grab;
 		z-index: 3;
 		-webkit-appearance: none;
 		appearance: none;
@@ -251,6 +270,11 @@
 			font-weight 0.15s ease,
 			color 0.15s ease;
 		white-space: nowrap;
+		background: none;
+		border: none;
+		padding: 4px;
+		margin: -4px;
+		cursor: pointer;
 	}
 
 	.label-text {
