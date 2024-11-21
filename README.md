@@ -2,6 +2,10 @@
 
 A highly customizable slider component for SvelteKit featuring multiple shapes, styles, and custom color options.
 
+## Preview Page
+
+[Preview](https://custom-slider-pro.netlify.app/)
+
 ## Installation
 
 ```bash
