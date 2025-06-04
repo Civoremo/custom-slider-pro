@@ -170,6 +170,7 @@
 		/>
 
 		<!-- Example 4: No background for value display -->
+		<div class="noLabels">
 		<CustomSliderPro
 			value={2000}
 			min={0}
@@ -181,10 +182,15 @@
 			showMarkers={false}
 			showLabels={false}
 		/>
+		</div>
 	</div>
 </div>
 
 <style>
+	.noLabels {
+		border: 1px solid red;
+	}
+
 	.container {
 		width: 100%;
 		max-width: 1200px;

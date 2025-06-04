@@ -56,7 +56,7 @@
 
 <div class="slider-container">
 	<div class="slider-with-markers{!showLabels ? ' no-labels' : ''}">
-		<div class="track-container">
+		<div class="track-container" style="{!showLabels ? `height: ${trackHeight}px; overflow: visible;` : ''}">
 			<div class="track-wrapper">
 				<div
 					class="track"
@@ -321,15 +321,23 @@
 
 	/* Update padding when labels are hidden */
 	:global(.slider-with-markers.no-labels) {
-		--labels-padding: 2px;
+		--labels-padding: 0;
+		--thumb-overflow: 0;
+		padding: 0 !important;
 	}
 
-	/* Make track-container and slider more compact when no-labels */
-	.slider-with-markers.no-labels .track-container {
-		height: calc(var(--thumb-size, 20px) + 2px);
+	.slider-with-markers.no-labels .track-wrapper {
+		margin: 0;
 	}
-	.slider-with-markers.no-labels .slider {
-		height: calc(var(--thumb-size, 20px) + 8px);
+
+	.slider-with-markers.no-labels .input-wrapper {
+		left: 0;
+		right: 0;
+		width: 100%;
+	}
+
+	.slider-container.no-labels {
+		padding: 0;
 	}
 
 	.value-display {
