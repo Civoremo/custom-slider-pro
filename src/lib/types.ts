@@ -39,6 +39,8 @@ export interface CustomSliderProps {
 	type?: SliderType;
 	/** Labels for each marker position */
 	labels?: string[];
+	/** Whether to show labels */
+	showLabels?: boolean;
 	/** Shape of the markers and thumb */
 	shape?: SliderShape;
 	/** Height of the track in pixels */
@@ -135,6 +137,7 @@ export const defaultProps = {
 	step: 1,
 	type: 'default' as SliderType,
 	labels: ['1 Day', '1 Week', '1 Month', '3 Months', '6 Months', '1 Year'],
+	showLabels: true,
 	shape: 'circle' as SliderShape,
 	trackHeight: 6,
 	thumbSize: 20,

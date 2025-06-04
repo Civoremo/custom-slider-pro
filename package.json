@@ -1,6 +1,6 @@
 {
 	"name": "custom-slider-pro",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "A customizable slider component for SvelteKit with multiple shapes and styles",
 	"type": "module",
 	"exports": {

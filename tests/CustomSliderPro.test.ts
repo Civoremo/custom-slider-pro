@@ -10,6 +10,7 @@ interface SliderProps {
 	step?: number;
 	type?: SliderType;
 	labels?: string[];
+	showLabels?: boolean;
 	shape?: SliderShape;
 	trackHeight?: number;
 	thumbSize?: number;
@@ -438,5 +439,32 @@ describe('CustomSliderPro', () => {
 			const sliderContainer = container.querySelector('.slider-container');
 			expect(sliderContainer).toBeInTheDocument();
 		});
+	});
+
+	it('hides labels when showLabels is false', () => {
+		const props: SliderProps = {
+			showLabels: false,
+			labels: ['Day 1', 'Day 2', 'Day 3'],
+			min: 0,
+			max: 2,
+			step: 1
+		};
+
+		const { container } = render(CustomSliderPro, { props });
+		const labelsContainer = container.querySelector('.labels-container');
+		expect(labelsContainer).not.toBeInTheDocument();
+	});
+
+	it('shows labels by default', () => {
+		const props: SliderProps = {
+			labels: ['Day 1', 'Day 2', 'Day 3'],
+			min: 0,
+			max: 2,
+			step: 1
+		};
+
+		const { container } = render(CustomSliderPro, { props });
+		const labelsContainer = container.querySelector('.labels-container');
+		expect(labelsContainer).toBeInTheDocument();
 	});
 });

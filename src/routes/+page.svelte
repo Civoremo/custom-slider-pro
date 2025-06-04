@@ -97,6 +97,21 @@
 				labels={['1', '2', '3', '4', '5', '6']}
 			/>
 		</div>
+
+		<div class="slider-wrapper">
+			<h3 class="slider-title">No Labels Circle</h3>
+			<CustomSliderPro
+				bind:value
+				min={0}
+				max={5}
+				type="default"
+				shape="circle"
+				trackHeight={8}
+				thumbSize={24}
+				thumbBorderWidth={2}
+				showLabels={false}
+			/>
+		</div>
 	</div>
 </div>
 

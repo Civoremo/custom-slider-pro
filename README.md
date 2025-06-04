@@ -49,6 +49,7 @@ npm install custom-slider-pro
 | type            | 'default' \| 'info' \| 'warning' \| 'error'                                          | 'default' | Predefined color schemes (optional if using custom colors) |
 | shape           | 'circle' \| 'roundedSquare' \| 'square' \| 'triangle' \| 'triangleDown' \| 'diamond' | 'circle'  | Shape of markers and thumb                       |
 | labels          | string[]                                                                             | []        | Labels for each marker position                  |
+| showLabels      | boolean                                                                              | true      | Whether to display the labels                    |
 | trackHeight     | number                                                                               | 6         | Height of the track in pixels                    |
 | thumbSize       | number                                                                               | 20        | Size of the thumb in pixels                      |
 | thumbBorderWidth| number                                                                               | 2         | Border width of the thumb in pixels              |

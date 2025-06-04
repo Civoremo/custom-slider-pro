@@ -8,6 +8,7 @@
 	export let step = defaultProps.step;
 	export let type = defaultProps.type;
 	export let labels = defaultProps.labels;
+	export let showLabels = defaultProps.showLabels;
 	export let shape = defaultProps.shape;
 	export let trackHeight = defaultProps.trackHeight;
 	export let thumbSize = defaultProps.thumbSize;
@@ -128,31 +129,33 @@
 			</div>
 		</div>
 
-		<div class="labels-container">
-			{#each markers as marker, index}
-				<button
-					class="label"
-					on:click={() => handleMarkerClick(marker.value)}
-					style="
-					left: {((marker.value - min) / (max - min)) * 100}%;
-					font-weight: {value === marker.value ? '600' : '400'};
-					color: {value === marker.value ? '#1f2937' : '#6b7280'};
-					text-align: {index === 0 ? 'left' : index === markers.length - 1 ? 'right' : 'center'};
-					transform: translateX(-50%);"
-				>
-					<span
-						class="label-text"
-						style="display: inline-block; {index === 0
-							? 'transform: translateX(50%);'
-							: index === markers.length - 1
-								? 'transform: translateX(-50%);'
-								: ''}"
+		{#if showLabels}
+			<div class="labels-container">
+				{#each markers as marker, index}
+					<button
+						class="label"
+						on:click={() => handleMarkerClick(marker.value)}
+						style="
+						left: {((marker.value - min) / (max - min)) * 100}%;
+						font-weight: {value === marker.value ? '600' : '400'};
+						color: {value === marker.value ? '#1f2937' : '#6b7280'};
+						text-align: {index === 0 ? 'left' : index === markers.length - 1 ? 'right' : 'center'};
+						transform: translateX(-50%);"
 					>
-						{marker.label}
-					</span>
-				</button>
-			{/each}
-		</div>
+						<span
+							class="label-text"
+							style="display: inline-block; {index === 0
+								? 'transform: translateX(50%);'
+								: index === markers.length - 1
+									? 'transform: translateX(-50%);'
+									: ''}"
+						>
+							{marker.label}
+						</span>
+					</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -165,7 +168,7 @@
 
 	.slider-with-markers {
 		position: relative;
-		padding: 5px 0 25px;
+		padding: 5px 0 var(--labels-padding, 25px);
 		min-width: 300px;
 	}
 
@@ -279,5 +282,15 @@
 
 	.label-text {
 		transition: transform 0.15s ease;
+	}
+
+	/* Add CSS variable for labels padding */
+	:global(:root) {
+		--labels-padding: 25px;
+	}
+
+	/* Update padding when labels are hidden */
+	:global(.slider-with-markers:not(:has(.labels-container))) {
+		--labels-padding: 5px;
 	}
 </style>
