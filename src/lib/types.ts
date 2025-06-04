@@ -41,6 +41,10 @@ export interface CustomSliderProps {
 	labels?: string[];
 	/** Whether to show labels */
 	showLabels?: boolean;
+	/** Whether to show markers */
+	showMarkers?: boolean;
+	/** Whether to show current value above thumb */
+	showValue?: boolean;
 	/** Shape of the markers and thumb */
 	shape?: SliderShape;
 	/** Height of the track in pixels */
@@ -51,6 +55,16 @@ export interface CustomSliderProps {
 	thumbBorderWidth?: number;
 	/** Custom color for all parts */
 	colors?: ColorScheme;
+	/** Custom value display (string or function) */
+	valueDisplay?: string | ((value: number) => string);
+	/** Custom background color for value display */
+	valueDisplayBg?: string;
+	/** Custom text color for value display */
+	valueDisplayColor?: string;
+	/** Custom font size for value display */
+	valueDisplayFontSize?: string;
+	/** Custom font family for value display */
+	valueDisplayFont?: string;
 }
 
 /** Color configuration for slider variants */
@@ -138,6 +152,8 @@ export const defaultProps = {
 	type: 'default' as SliderType,
 	labels: ['1 Day', '1 Week', '1 Month', '3 Months', '6 Months', '1 Year'],
 	showLabels: true,
+	showMarkers: true,
+	showValue: false,
 	shape: 'circle' as SliderShape,
 	trackHeight: 6,
 	thumbSize: 20,

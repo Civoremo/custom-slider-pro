@@ -1,4 +1,6 @@
+/// <reference types="vitest" />
 import { render, fireEvent } from '@testing-library/svelte';
+import { describe, it, expect } from 'vitest';
 import CustomSliderPro from '../src/lib/CustomSliderPro.svelte';
 import type { SliderShape, SliderType } from '../src/lib/types';
 
@@ -11,6 +13,8 @@ interface SliderProps {
 	type?: SliderType;
 	labels?: string[];
 	showLabels?: boolean;
+	showMarkers?: boolean;
+	showValue?: boolean;
 	shape?: SliderShape;
 	trackHeight?: number;
 	thumbSize?: number;
@@ -19,25 +23,107 @@ interface SliderProps {
 
 describe('CustomSliderPro', () => {
 	it('renders with default props', () => {
-		const { container } = render<CustomSliderPro>(CustomSliderPro);
+		const { container } = render(CustomSliderPro);
 		const slider = container.querySelector('input[type="range"]');
-		expect(slider).toBeInTheDocument();
+		expect(slider).toBeTruthy();
+		expect(slider?.getAttribute('min')).toBe('0');
+		expect(slider?.getAttribute('max')).toBe('5');
+		expect(slider?.getAttribute('step')).toBe('1');
 	});
 
-	it('updates value on input change', async () => {
+	it('updates value on input', async () => {
+		const { container } = render(CustomSliderPro);
+		const slider = container.querySelector('input[type="range"]') as HTMLInputElement;
+		await fireEvent.input(slider, { target: { value: '3' } });
+		expect(slider.value).toBe('3');
+	});
+
+	it('renders labels when showLabels is true', () => {
 		const props: SliderProps = {
-			value: 0,
-			min: 0,
-			max: 5,
-			step: 1
+			showLabels: true,
+			labels: ['0', '25', '50', '75', '100']
 		};
+		const { container } = render(CustomSliderPro, props);
+		const labels = container.querySelectorAll('.label');
+		expect(labels.length).toBe(5);
+	});
 
-		const { container } = render<CustomSliderPro>(CustomSliderPro, { props });
-		const input = container.querySelector('input[type="range"]') as HTMLInputElement;
-		expect(input).toBeInTheDocument();
+	it('renders markers when showMarkers is true', () => {
+		const props: SliderProps = {
+			showMarkers: true,
+			min: 0,
+			max: 100,
+			step: 25
+		};
+		const { container } = render(CustomSliderPro, props);
+		const markers = container.querySelectorAll('.marker');
+		expect(markers.length).toBe(5); // 0, 25, 50, 75, 100
+	});
 
-		await fireEvent.input(input, { target: { value: '3' } });
-		expect(input.value).toBe('3');
+	it('does not render markers when showMarkers is false', () => {
+		const props: SliderProps = {
+			showMarkers: false,
+			min: 0,
+			max: 100,
+			step: 25
+		};
+		const { container } = render(CustomSliderPro, props);
+		const markers = container.querySelectorAll('.marker');
+		expect(markers.length).toBe(0);
+	});
+
+	it('formats large numbers with commas', () => {
+		const props: SliderProps = {
+			value: 1000,
+			showValue: true
+		};
+		const { container } = render(CustomSliderPro, props);
+		const valueDisplay = container.querySelector('.value-display');
+		expect(valueDisplay?.textContent).toBe('1,000');
+	});
+
+	it('applies shape styles correctly', () => {
+		const props: SliderProps = {
+			shape: 'circle'
+		};
+		const { container } = render(CustomSliderPro, props);
+		const thumb = container.querySelector('.thumb') as HTMLElement;
+		expect(thumb?.style.borderRadius).toBe('50%');
+	});
+
+	it('applies type colors correctly', () => {
+		const props: SliderProps = {
+			type: 'info'
+		};
+		const { container } = render(CustomSliderPro, props);
+		const track = container.querySelector('.track') as HTMLElement;
+		expect(track?.style.background).toContain('rgb(59, 130, 246)');
+	});
+
+	it('handles marker clicks', async () => {
+		const props: SliderProps = {
+			showMarkers: true,
+			min: 0,
+			max: 100,
+			step: 25
+		};
+		const { container } = render(CustomSliderPro, props);
+		const markers = container.querySelectorAll('.marker');
+		await fireEvent.click(markers[1]); // Click the second marker (25)
+		const slider = container.querySelector('input[type="range"]') as HTMLInputElement;
+		expect(slider.value).toBe('25');
+	});
+
+	it('handles label clicks', async () => {
+		const props: SliderProps = {
+			showLabels: true,
+			labels: ['0', '25', '50', '75', '100']
+		};
+		const { container } = render(CustomSliderPro, props);
+		const labels = container.querySelectorAll('.label');
+		await fireEvent.click(labels[1]); // Click the second label (25)
+		const slider = container.querySelector('input[type="range"]') as HTMLInputElement;
+		expect(slider.value).toBe('25');
 	});
 
 	it('renders labels correctly', () => {
@@ -155,7 +241,7 @@ describe('CustomSliderPro', () => {
 	});
 
 	// Test all shape variants
-	describe('shape variants', () => {
+	it('shape variants', () => {
 		const shapes = [
 			'circle',
 			'roundedSquare',
@@ -198,7 +284,7 @@ describe('CustomSliderPro', () => {
 	});
 
 	// Test all type variants
-	describe('type variants', () => {
+	it('type variants', () => {
 		const types = ['default', 'info', 'warning', 'error'] as const;
 
 		types.forEach((type) => {
@@ -273,7 +359,7 @@ describe('CustomSliderPro', () => {
 		});
 	});
 
-	describe('edge cases and validation', () => {
+	it('edge cases and validation', () => {
 		it('handles negative values correctly', async () => {
 			const props: SliderProps = {
 				min: -10,
@@ -306,7 +392,7 @@ describe('CustomSliderPro', () => {
 		});
 	});
 
-	describe('interaction behaviors', () => {
+	it('interaction behaviors', () => {
 		it('handles dynamic prop updates', async () => {
 			const { container, rerender } = render(CustomSliderPro, {
 				props: {
@@ -329,7 +415,7 @@ describe('CustomSliderPro', () => {
 		});
 	});
 
-	describe('accessibility features', () => {
+	it('accessibility features', () => {
 		it('has proper slider attributes and properties', () => {
 			const props: SliderProps = {
 				min: 0,
@@ -466,5 +552,31 @@ describe('CustomSliderPro', () => {
 		const { container } = render(CustomSliderPro, { props });
 		const labelsContainer = container.querySelector('.labels-container');
 		expect(labelsContainer).toBeInTheDocument();
+	});
+
+	it('shows value display when showValue is true', () => {
+		const props: SliderProps = {
+			showValue: true,
+			value: 3,
+			min: 0,
+			max: 5
+		};
+
+		const { container } = render(CustomSliderPro, { props });
+		const valueDisplay = container.querySelector('.value-display');
+		expect(valueDisplay).toBeInTheDocument();
+		expect(valueDisplay).toHaveTextContent('3');
+	});
+
+	it('hides value display by default', () => {
+		const props: SliderProps = {
+			value: 3,
+			min: 0,
+			max: 5
+		};
+
+		const { container } = render(CustomSliderPro, { props });
+		const valueDisplay = container.querySelector('.value-display');
+		expect(valueDisplay).not.toBeInTheDocument();
 	});
 });

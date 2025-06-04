@@ -9,11 +9,18 @@
 	export let type = defaultProps.type;
 	export let labels = defaultProps.labels;
 	export let showLabels = defaultProps.showLabels;
+	export let showMarkers = defaultProps.showMarkers;
+	export let showValue = defaultProps.showValue;
 	export let shape = defaultProps.shape;
 	export let trackHeight = defaultProps.trackHeight;
 	export let thumbSize = defaultProps.thumbSize;
 	export let thumbBorderWidth = defaultProps.thumbBorderWidth;
 	export let colors: ColorScheme | undefined = undefined;
+	export let valueDisplay: string | ((value: number) => string) | undefined = undefined;
+	export let valueDisplayBg: string | undefined = undefined;
+	export let valueDisplayColor: string | undefined = undefined;
+	export let valueDisplayFontSize: string | undefined = undefined;
+	export let valueDisplayFont: string | undefined = undefined;
 
 	const colorSchemes = defaultColorSchemes;
 	const getShapeStyles = (shapeType: SliderShape): ShapeStyles => defaultShapeStyles[shapeType];
@@ -22,11 +29,19 @@
 	$: shapeStyle = getShapeStyles(shape);
 	$: colors = colors || colorSchemes[type];
 	$: totalSteps = Math.ceil((max - min) / step);
-	$: markers = Array.from({ length: totalSteps + 1 }, (_, i) => ({
+	$: markers = showMarkers ? Array.from({ length: totalSteps + 1 }, (_, i) => ({
 		value: min + i * step,
-		label: labels[i] || (min + i * step).toString()
-	}));
+		label: labels[i] || formatValue(min + i * step)
+	})) : [];
 	$: percentage = ((value - min) / (max - min)) * 100;
+	$: displayValue = typeof valueDisplay === 'function'
+		? valueDisplay(value)
+		: valueDisplay ?? formatValue(value);
+
+	// Format large numbers with commas
+	function formatValue(num: number): string {
+		return num.toLocaleString();
+	}
 
 	function handleInput(event: Event): void {
 		const input = event.target as HTMLInputElement;
@@ -56,19 +71,21 @@
 					)
 					"
 				>
-					{#each markers as marker}
-						<button
-							class="marker"
-							on:click={() => handleMarkerClick(marker.value)}
-							style="
-							left: {((marker.value - min) / (max - min)) * 100}%;
-							width: {markerSize}px;
-							height: {markerSize}px;
-							background-color: {value >= marker.value ? colors.filled : colors.track};
-							{shapeStyle.shape}
-							"
-						/>
-					{/each}
+					{#if showMarkers}
+						{#each markers as marker}
+							<button
+								class="marker"
+								on:click={() => handleMarkerClick(marker.value)}
+								style="
+								left: {((marker.value - min) / (max - min)) * 100}%;
+								width: {markerSize}px;
+								height: {markerSize}px;
+								background-color: {value >= marker.value ? colors.filled : colors.track};
+								{shapeStyle.shape}
+								"
+							/>
+						{/each}
+					{/if}
 				</div>
 
 				<div
@@ -109,6 +126,19 @@
 								background-color: {colors.thumb};
 								"
 							/>
+						</div>
+					{/if}
+					{#if showValue}
+						<div
+							class="value-display"
+							style="
+							{valueDisplayBg ? `background-color: ${valueDisplayBg};` : ''}
+							color: {valueDisplayColor || colors.thumb};
+							{valueDisplayFontSize ? `font-size: ${valueDisplayFontSize};` : ''}
+							{valueDisplayFont ? `font-family: ${valueDisplayFont};` : ''}
+							"
+						>
+							{displayValue}
 						</div>
 					{/if}
 				</div>
@@ -292,5 +322,35 @@
 	/* Update padding when labels are hidden */
 	:global(.slider-with-markers:not(:has(.labels-container))) {
 		--labels-padding: 5px;
+	}
+
+	.value-display {
+		position: absolute;
+		top: -30px;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 2px 6px;
+		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+		white-space: nowrap;
+		pointer-events: none;
+		/* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+		min-width: 40px;
+		text-align: center;
+		border: none;
+	}
+
+	.value-display::after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+		border-top: 4px solid var(--value-bg, inherit);
 	}
 </style>

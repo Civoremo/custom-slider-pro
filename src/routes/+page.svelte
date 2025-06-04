@@ -112,6 +112,75 @@
 				showLabels={false}
 			/>
 		</div>
+
+		<div class="slider-wrapper">
+			<h3 class="slider-title">With Value Display</h3>
+			<CustomSliderPro
+				bind:value
+				min={0}
+				max={5}
+				type="info"
+				shape="circle"
+				trackHeight={8}
+				thumbSize={24}
+				thumbBorderWidth={2}
+				showLabels={false}
+				showValue={true}
+			/>
+		</div>
+
+		<h2>Custom Value Display Examples</h2>
+
+		<!-- Example 1: Custom string value -->
+		<CustomSliderPro
+			value={2000}
+			min={0}
+			max={5000}
+			showValue={true}
+			valueDisplay="$2,000"
+			valueDisplayBg="#fffbe6"
+			valueDisplayColor="#b91c1c"
+			showMarkers={false}
+			showLabels={false}
+		/>
+
+		<!-- Example 2: Custom function value -->
+		<CustomSliderPro
+			value={2000}
+			min={0}
+			max={5000}
+			showValue={true}
+			valueDisplay={v => v === 2000 ? 'two thousand' : v}
+			valueDisplayBg="black"
+			valueDisplayColor="lime"
+			showMarkers={false}
+			showLabels={false}
+		/>
+
+		<!-- Example 3: Default formatting, but custom colors -->
+		<CustomSliderPro
+			value={1500}
+			min={0}
+			max={5000}
+			showValue={true}
+			valueDisplayBg="#e0f7fa"
+			valueDisplayColor="#006064"
+			showMarkers={false}
+			showLabels={false}
+		/>
+
+		<!-- Example 4: No background for value display -->
+		<CustomSliderPro
+			value={2000}
+			min={0}
+			max={5000}
+			showValue={true}
+			valueDisplay="No background"
+			valueDisplayBg=""
+			valueDisplayColor="#b91c1c"
+			showMarkers={false}
+			showLabels={false}
+		/>
 	</div>
 </div>
 
