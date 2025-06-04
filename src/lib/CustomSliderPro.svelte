@@ -55,7 +55,7 @@
 </script>
 
 <div class="slider-container">
-	<div class="slider-with-markers">
+	<div class="slider-with-markers{!showLabels ? ' no-labels' : ''}">
 		<div class="track-container">
 			<div class="track-wrapper">
 				<div
@@ -320,8 +320,16 @@
 	}
 
 	/* Update padding when labels are hidden */
-	:global(.slider-with-markers:not(:has(.labels-container))) {
-		--labels-padding: 5px;
+	:global(.slider-with-markers.no-labels) {
+		--labels-padding: 2px;
+	}
+
+	/* Make track-container and slider more compact when no-labels */
+	.slider-with-markers.no-labels .track-container {
+		height: calc(var(--thumb-size, 20px) + 2px);
+	}
+	.slider-with-markers.no-labels .slider {
+		height: calc(var(--thumb-size, 20px) + 8px);
 	}
 
 	.value-display {
